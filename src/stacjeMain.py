@@ -8,11 +8,12 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 
-from ChartDownloadForm import ChartDownloadForm
-from imageDownload import download_image
+from components.forms.ChartDownloadForm import ChartDownloadForm
+from utils.imageDownload import download_image
+from utils.imageSaver import save_image
 
 
-class StacjeApp(App):
+class StacjeMain(App):
     def build(self):
         self.title = "stacje pogodowe by Adam Siedlecki s25300"
         print("Running inside: " + os.getcwd())
@@ -46,15 +47,11 @@ class StacjeApp(App):
 
     async def download_and_set_app_icon(self):
         print("icon download start...")
-        downloadStart = datetime.datetime.now()
         image_downloaded = download_image('https://otm.asiedlecki.net/img/logo500.png')
-        downloadEnd = datetime.datetime.now()
-        print(f"icon downloaded, took {(downloadEnd-downloadStart).total_seconds()} seconds")
-        icon_disk_path = os.path.join("downloads", "tmp", "app-icon.png")
-        image_downloaded.save(icon_disk_path)
-        self.icon = icon_disk_path
+        chart_disk_path = save_image(image_downloaded, "tmp", "app-icon.png")
+        self.icon = chart_disk_path
         print("icon set: " + self.icon)
 
 
 if __name__ == "__main__":
-    StacjeApp().run()
+    StacjeMain().run()

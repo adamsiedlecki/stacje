@@ -6,9 +6,10 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 
-from DateTimeInput import DateTimeInput
-from ImageWindow import ImageWindow
-from imageDownload import download_image
+from components.DateTimeInput import DateTimeInput
+from components.ImageWindow import ImageWindow
+from utils.imageDownload import download_image
+from utils.imageSaver import save_image
 
 
 class ChartDownloadForm(BoxLayout):
@@ -64,14 +65,9 @@ class ChartDownloadForm(BoxLayout):
             self.wynikLabel.text = "Podaj datę oraz czas do"
             return
 
-        downloadStart = datetime.datetime.now()
         image_downloaded = download_image(f'https://otm.asiedlecki.net/api/v1/image'
                                           f'?locationPlaceId={locationId}&start={dateStart}T{timeStart}&end={dateEnd}T{timeEnd}')
-        downloadEnd = datetime.datetime.now()
-        print(f"temperature chart downloaded, took {(downloadEnd - downloadStart).total_seconds()} seconds")
-        filename = f'wykres temperatury {locationId} {dateStart} {timeStart} do {dateEnd} {timeEnd}.jpg'
-        chart_disk_path = os.path.join("filename")  # "downloads", "wykresy",
-        image_downloaded.save(chart_disk_path)
-        print("Chart saved: "+ chart_disk_path)
+        filename = f'wykres temperatury {locationId} {dateStart} {timeStart.replace(":", ".")} do {dateEnd} {timeEnd.replace(":", ".")}.png'
+        save_image(image_downloaded, "wykresy", filename)
         image_window = ImageWindow(image_downloaded, filename)
         image_window.open()
