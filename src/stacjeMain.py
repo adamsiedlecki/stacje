@@ -9,8 +9,9 @@ from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 
 from components.forms.ChartDownloadForm import ChartDownloadForm
+from components.forms.FrostRaportDownloadForm import FrostReportDownloadForm
 from utils.imageDownload import download_image
-from utils.imageSaver import save_image
+from utils.saver import save_image
 
 
 class StacjeMain(App):
@@ -33,9 +34,7 @@ class StacjeMain(App):
         self.window.add_widget(Label(text='Witaj w tej wspaniałej aplikacji!'))
         self.window.add_widget(ChartDownloadForm())
 
-        self.user_input = TextInput(multiline=False)
-        self.user_input.input_filter='int'
-        self.window.add_widget(self.user_input)
+        self.window.add_widget(FrostReportDownloadForm())
 
         self.button = Button(text="Wprowadź dane", bold=True, background_color='#00FFCE')
         self.button.bind(on_press=self.button_callback)

@@ -1,18 +1,16 @@
 import datetime
-import os
 
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from kivy.uix.label import Label
+from kivy.uix.textinput import TextInput
 
 from components.DateTimeInput import DateTimeInput
-from components.ImageWindow import ImageWindow
-from utils.imageDownload import download_image
-from utils.saver import save_image
+from utils.pdfDownload import download_pdf
+from utils.saver import save_pdf
 
 
-class ChartDownloadForm(BoxLayout):
+class FrostReportDownloadForm(BoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.orientation = 'vertical'
@@ -24,7 +22,7 @@ class ChartDownloadForm(BoxLayout):
 
         one_week_ago = current_datetime - datetime.timedelta(weeks=1)
 
-        self.add_widget(Label(text="Pobierz wykres temperatury: "))
+        self.add_widget(Label(text="Pobierz raport przymrozkowy: "))
         self.add_widget(Label(text="id lokacji:"))
         self.id_lokacji = TextInput(input_filter='int')
         self.add_widget(self.id_lokacji)
@@ -37,7 +35,7 @@ class ChartDownloadForm(BoxLayout):
         self.dateEnd = DateTimeInput(date=current_datetime.date().__str__(), time=current_datetime.strftime('%H:%M'))
         self.add_widget(self.dateEnd)
 
-        self.submit_button = Button(text="Pobierz dane")
+        self.submit_button = Button(text="Pobierz pdf")
         self.submit_button.bind(on_press=self.submit)
         self.add_widget(self.submit_button)
 
@@ -65,9 +63,8 @@ class ChartDownloadForm(BoxLayout):
             self.wynikLabel.text = "Podaj datę oraz czas do"
             return
 
-        image_downloaded = download_image(f'https://otm.asiedlecki.net/api/v1/image'
-                                          f'?locationPlaceId={locationId}&start={dateStart}T{timeStart}&end={dateEnd}T{timeEnd}')
-        filename = f'wykres temperatury {locationId} {dateStart} {timeStart.replace(":", ".")} do {dateEnd} {timeEnd.replace(":", ".")}.png'
-        save_image(image_downloaded, "wykresy", filename)
-        image_window = ImageWindow(image_downloaded, filename)
-        image_window.open()
+        pdf_bytes = download_pdf(f'https://otm.asiedlecki.net/api/v1/report/frost'
+                                          f'?locationPlaceId={locationId}&start={dateStart}&end={dateEnd}')
+        filename = f'raport przymrozkowy {locationId} {dateStart} do {dateEnd}.pdf'
+        save_pdf(pdf_bytes, "pdf", filename)
+
