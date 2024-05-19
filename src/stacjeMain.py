@@ -10,7 +10,8 @@ from kivy.uix.textinput import TextInput
 
 from components.forms.ChartDownloadForm import ChartDownloadForm
 from components.forms.FrostRaportDownloadForm import FrostReportDownloadForm
-from utils.imageDownload import download_image
+from components.forms.OtmScreenForm import OtmScreenForm
+from utils.ContentDownloader import download_image
 from utils.saver import save_image
 
 
@@ -42,7 +43,14 @@ class StacjeMain(App):
         self.window.add_widget(textLabel)
         self.window.add_widget(ChartDownloadForm())
         self.window.add_widget(FrostReportDownloadForm())
-        self.window.add_widget(Label(text="aaa"))
+
+        otm_screen_label = Label()
+        otm_screen_label.text_size = (300, None)
+        otm_screen_label.halign = 'left'
+        otm_screen_label.valign = 'middle'
+
+        self.window.add_widget(OtmScreenForm(otm_screen_label))
+        self.window.add_widget(otm_screen_label)
 
     async def download_and_set_app_icon(self):
         print("icon download start...")

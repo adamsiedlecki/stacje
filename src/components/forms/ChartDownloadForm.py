@@ -8,7 +8,7 @@ from kivy.uix.label import Label
 
 from components.DateTimeInput import DateTimeInput
 from components.ImageWindow import ImageWindow
-from utils.imageDownload import download_image
+from utils.ContentDownloader import download_image
 from utils.saver import save_image
 
 

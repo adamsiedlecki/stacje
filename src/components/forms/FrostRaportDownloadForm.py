@@ -6,8 +6,8 @@ from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 
 from components.DateTimeInput import DateTimeInput
+from utils.ContentDownloader import download_pdf
 from utils.FileOpener import open_file
-from utils.pdfDownload import download_pdf
 from utils.saver import save_pdf
 
 
