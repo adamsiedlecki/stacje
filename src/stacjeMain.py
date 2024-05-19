@@ -31,18 +31,18 @@ class StacjeMain(App):
 
     async def configure_window(self):
         print("Window configuration...")
-        self.window.add_widget(Label(text='Witaj w tej wspaniałej aplikacji!'))
+        textLabel = Label(text='Aplikacja do poprawnego działania '
+                   'wymaga połączenia z: '
+                               '\n    internetem '
+                               '\n    serwerem otm.asiedlecki.net')
+        textLabel.text_size = (300, None)
+        textLabel.halign = 'left'
+        textLabel.valign = 'middle'
+
+        self.window.add_widget(textLabel)
         self.window.add_widget(ChartDownloadForm())
-
         self.window.add_widget(FrostReportDownloadForm())
-
-        self.button = Button(text="Wprowadź dane", bold=True, background_color='#00FFCE')
-        self.button.bind(on_press=self.button_callback)
-        self.window.add_widget(self.button)
-
-    def button_callback(self, instance):
-        text = self.user_input.text
-        print(text)
+        self.window.add_widget(Label(text="aaa"))
 
     async def download_and_set_app_icon(self):
         print("icon download start...")

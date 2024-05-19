@@ -6,6 +6,7 @@ from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 
 from components.DateTimeInput import DateTimeInput
+from utils.FileOpener import open_file
 from utils.pdfDownload import download_pdf
 from utils.saver import save_pdf
 
@@ -28,11 +29,15 @@ class FrostReportDownloadForm(BoxLayout):
         self.add_widget(self.id_lokacji)
 
         self.add_widget(Label(text="data od:"))
-        self.dateStart = DateTimeInput(date=one_week_ago.date().__str__(), time=one_week_ago.strftime('%H:%M'))
+        self.dateStart = DateTimeInput(date=one_week_ago.date().__str__(),
+                                       time="",
+                                       include_time=False)
         self.add_widget(self.dateStart)
 
         self.add_widget(Label(text="data do:"))
-        self.dateEnd = DateTimeInput(date=current_datetime.date().__str__(), time=current_datetime.strftime('%H:%M'))
+        self.dateEnd = DateTimeInput(date=current_datetime.date().__str__(),
+                                     time="",
+                                     include_time=False)
         self.add_widget(self.dateEnd)
 
         self.submit_button = Button(text="Pobierz pdf")
@@ -46,25 +51,23 @@ class FrostReportDownloadForm(BoxLayout):
         self.wynikLabel.text = ""
         locationId = self.id_lokacji.text
         dateStart = self.dateStart.date_input.text
-        timeStart = self.dateStart.time_input.text
-
         dateEnd = self.dateEnd.date_input.text
-        timeEnd = self.dateEnd.time_input.text
 
         if locationId == "" :
             self.wynikLabel.text = "Podaj id lokacji"
             return
 
-        if dateStart == "" or timeStart == "":
+        if dateStart == "":
             self.wynikLabel.text = "Podaj datę oraz czas od"
             return
 
-        if dateEnd == "" or timeEnd == "":
+        if dateEnd == "":
             self.wynikLabel.text = "Podaj datę oraz czas do"
             return
 
         pdf_bytes = download_pdf(f'https://otm.asiedlecki.net/api/v1/report/frost'
                                           f'?locationPlaceId={locationId}&start={dateStart}&end={dateEnd}')
         filename = f'raport przymrozkowy {locationId} {dateStart} do {dateEnd}.pdf'
-        save_pdf(pdf_bytes, "pdf", filename)
+        disk_path = save_pdf(pdf_bytes, "pdf", filename)
+        open_file(disk_path)
 
