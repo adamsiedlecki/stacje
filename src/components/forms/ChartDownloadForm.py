@@ -2,6 +2,7 @@ import datetime
 import os
 
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.popup import Popup
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from kivy.uix.label import Label
@@ -67,7 +68,11 @@ class ChartDownloadForm(BoxLayout):
 
         image_downloaded = download_image(f'https://otm.asiedlecki.net/api/v1/image'
                                           f'?locationPlaceId={locationId}&start={dateStart}T{timeStart}&end={dateEnd}T{timeEnd}')
-        filename = f'wykres temperatury {locationId} {dateStart} {timeStart.replace(":", ".")} do {dateEnd} {timeEnd.replace(":", ".")}.png'
-        save_image(image_downloaded, "wykresy", filename)
-        image_window = ImageWindow(image_downloaded, filename)
-        image_window.open()
+        if image_downloaded is None:
+            popup = Popup(title='Serwer nie zwrocil obrazka :(', size_hint=(0.8, 0.2))
+            popup.open()
+        else:
+            filename = f'wykres temperatury {locationId} {dateStart} {timeStart.replace(":", ".")} do {dateEnd} {timeEnd.replace(":", ".")}.png'
+            save_image(image_downloaded, "wykresy", filename)
+            image_window = ImageWindow(image_downloaded, filename)
+            image_window.open()

@@ -3,6 +3,7 @@ import datetime
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
+from kivy.uix.popup import Popup
 from kivy.uix.textinput import TextInput
 
 from components.DateTimeInput import DateTimeInput
@@ -67,7 +68,11 @@ class FrostReportDownloadForm(BoxLayout):
 
         pdf_bytes = download_pdf(f'https://otm.asiedlecki.net/api/v1/report/frost'
                                           f'?locationPlaceId={locationId}&start={dateStart}&end={dateEnd}')
-        filename = f'raport przymrozkowy {locationId} {dateStart} do {dateEnd}.pdf'
-        disk_path = save_pdf(pdf_bytes, "pdf", filename)
-        open_file(disk_path)
+        if pdf_bytes is None:
+            popup = Popup(title='Serwer nie zwrocil pdf :(', size_hint=(0.8, 0.2))
+            popup.open()
+        else:
+            filename = f'raport przymrozkowy {locationId} {dateStart} do {dateEnd}.pdf'
+            disk_path = save_pdf(pdf_bytes, "pdf", filename)
+            open_file(disk_path)
 
