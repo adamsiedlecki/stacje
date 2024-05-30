@@ -53,8 +53,12 @@ class StacjeMain(App):
         # print("icon download start...")
         # image_downloaded = download_image('https://otm.asiedlecki.net/img/logo500.png')
         # chart_disk_path = save_image(image_downloaded, "tmp", "app-icon.png")
-        self.icon = os.path.join("static", "app-icon.png")
-        print("icon set")
+        path = os.path.join("static", "app-icon.png")
+        if os.path.exists(path):
+            self.icon = path
+        else:
+            self.icon = os.path.join("_internal", "static", "app-icon.png")
+            print("icon set")
 
 
 if __name__ == "__main__":
