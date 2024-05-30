@@ -6,6 +6,11 @@ from kivy.core.image import Image
 
 
 def download_image(url):
+    """
+    Pobiera obrazek
+    :param url: url do obrazka
+    :return: obrazek
+    """
     try:
         download_start = datetime.now()
         response = requests.get(url)
@@ -20,6 +25,11 @@ def download_image(url):
 
 
 def download_pdf(url):
+    """
+    Pobiera dokument pdf
+    :param url: url do pdf
+    :return: pdf w postaci bajtów
+    """
     try:
         download_start = datetime.now()
         response = requests.get(url)
@@ -34,6 +44,11 @@ def download_pdf(url):
 
 
 def download_text(url):
+    """
+    Pobiera tekst
+    :param url: url do tekstu
+    :return: tekst
+    """
     try:
         download_start = datetime.now()
         response = requests.get(url)

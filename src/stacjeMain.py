@@ -12,6 +12,10 @@ from components.forms.OtmScreenForm import OtmScreenForm
 
 class StacjeMain(App):
     def build(self):
+        """
+        Buduje aplikację
+        :return: okno aplikacji
+        """
         self.title = "stacje pogodowe by Adam Siedlecki s25300"
         print("Running inside: " + os.getcwd())
         self.set_app_icon()
@@ -26,6 +30,9 @@ class StacjeMain(App):
         return self.window
 
     def configure_window(self):
+        """
+        Konfiguruje okno aplikacji
+        """
         print("Window configuration...")
         textLabel = Label(text='Aplikacja do poprawnego działania '
                    'wymaga połączenia z: '
@@ -50,9 +57,10 @@ class StacjeMain(App):
         self.window.add_widget(MapsForm())
 
     def set_app_icon(self):
-        # print("icon download start...")
-        # image_downloaded = download_image('https://otm.asiedlecki.net/img/logo500.png')
-        # chart_disk_path = save_image(image_downloaded, "tmp", "app-icon.png")
+        """
+        Ustawia ikonę aplikacji. Wykorzystuje katalog static.
+        W przypadku zbudowania do exe, wymaga dodania ścieżki _internal.
+        """
         path = os.path.join("static", "app-icon.png")
         if os.path.exists(path):
             self.icon = path

@@ -5,6 +5,12 @@ from kivy.core.image import Image
 
 
 def save_image(image: Image, type: str, filename: str):
+    """
+    :param image: obraz do zapisania
+    :param type:  typ pliku na potrzeby utworzenia odpowiedniego katalogu
+    :param filename: nazwa pliku
+    :return: ścieżka do pliku na dysku
+    """
     dirs_path = os.path.join("downloads", type)
     if not os.path.exists(dirs_path):
         os.makedirs(dirs_path)
@@ -16,6 +22,12 @@ def save_image(image: Image, type: str, filename: str):
 
 
 def save_pdf(pdf_bytes: BytesIO, type: str, filename: str):
+    """
+    :param pdf_bytes: bajty dokumentu pdf
+    :param type:      typ pliku na potrzeby utworzenia odpowiedniego katalogu
+    :param filename:  nazwa pliku
+    :return: ścieżka do pliku zapisanego na dysku
+    """
     dirs_path = os.path.join("downloads", type)
     if not os.path.exists(dirs_path):
         os.makedirs(dirs_path)
