@@ -1,13 +1,9 @@
-import datetime
-import json
 import webbrowser
 
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
-
-from utils.ContentDownloader import download_text
 
 
 class MapsForm(BoxLayout):
