@@ -37,7 +37,7 @@ class ChartDownloadForm(BoxLayout):
         self.dateEnd = DateTimeInput(date=current_datetime.date().__str__(), time=current_datetime.strftime('%H:%M'))
         self.add_widget(self.dateEnd)
 
-        self.submit_button = Button(text="Pobierz dane")
+        self.submit_button = Button(text="Pobierz wykres")
         self.submit_button.bind(on_press=self.submit)
         self.add_widget(self.submit_button)
 
